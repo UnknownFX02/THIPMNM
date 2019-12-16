@@ -80,31 +80,62 @@
 		if(mysqli_num_rows($result) > 0)
 			return false;
 		return true;
-
 	}
-	function paging()
+
+	function layAvatar($user_id)
 	{
-	require("db/connection.php");
-	$sql="SELECT count(mangaid) AS total FROM manga";
-    $result = mysqli_query($conn,$sql);
-    $row = mysqli_fetch_assoc($result);
-    $GLOBALS['$total_records'] = $row['total'];
-    $GLOBALS['$current_page'] = isset($_GET['page']) ? $_GET['page'] : 1; //echo $current_page."\n";
-    $GLOBALS['$limit'] = 6;
-    $$GLOBALS['$total_page'] = ceil($total_records / $limit);
-    if ($current_page > $total_page){
-        $current_page = $total_page;
-    }
-    else if ($current_page < 1){
-        $current_page = 1;
-    }
-    $GLOBALS['$start'] = ($current_page - 1) * $limit;
-
+		require("db/connection.php");
+		$sql = "SELECT avatar FROM user WHERE user_ID = '$user_id'";
+		$result = mysqli_query($conn, $sql);
+		if (mysqli_num_rows($result) > 0)
+				{
+    				$row = mysqli_fetch_assoc($result);
+    				return "images/user/".$row['avatar'];
+				} else return 0;
 	}
+
+	function tenUser($user_id)
+	{
+		require("db/connection.php");
+		$sql = "SELECT user_name FROM user WHERE user_ID = '$user_id'";
+		$result = mysqli_query($conn, $sql);
+		if (mysqli_num_rows($result) > 0)
+				{
+    				$row = mysqli_fetch_assoc($result);
+    				return $row['user_name'];
+				} else return 0;
+	}
+
+	function countCMT($chapter_id)
+	{
+		require("db/connection.php");
+		$sql = "SELECT count(cmt_id) AS total FROM comment WHERE chapter_id = '$chapter_id'";
+		$result = mysqli_query($conn, $sql);
+		if (mysqli_num_rows($result) > 0)
+				{
+    				$row = mysqli_fetch_assoc($result);
+    				return $row['total'];
+				} else return 0;
+	}
+
 
 	function dinhDangNgay($date)
 	{
 		$time = strtotime($date);
 		//$myFormatForView = date("m/d/y g:i A", $time);
 		return date("d/m/Y", $time);
+	}
+
+		function tongSearch($search)
+	{
+		require("db/connection.php");
+		if($search =="")
+			return 0;
+		$sql = "SELECT count(mangaid) AS total FROM manga WHERE manganame LIKE '%$search%'";
+		$result = mysqli_query($conn, $sql);
+		if (mysqli_num_rows($result) > 0)
+				{
+    				$row = mysqli_fetch_assoc($result);
+    				return $row['total'];
+				} else return 0;
 	}

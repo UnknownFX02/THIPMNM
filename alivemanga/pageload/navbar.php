@@ -8,7 +8,7 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent"> <!-- navbarSupportedContent -->
 		   	<ul class="navbar-nav mr-auto">
-		      	<li class="nav-item active">
+		      	<li class="nav-item">
 		        	<a class="nav-link" href="index.php">Trang chủ</a>
 		      	</li>
 		      	<!--<li class="nav-item"> cai nay nam ngay truoc trang chu ko biet de lam gi <span class="sr-only">(current)</span>
@@ -28,7 +28,7 @@
 		    if (mysqli_num_rows($result) > 0)
 		    {
 		        // xuất dữ liệu mỗi cột
-		        while($row = mysqli_fetch_assoc($result)) 
+		        while($row = mysqli_fetch_assoc($result))
 		        { ?>
 		         	<a class="dropdown-item" href="search.php?id=<?php echo $row['ma_loaitr']; ?>"><?php echo $row['loaitr']; ?></a>
 		        <?php }
@@ -44,18 +44,18 @@
 		        	<a class="nav-link" href="about.php">Giới Thiệu</a>
 		      	</li>
 		      	<li class="nav-item">
-		        	<a class="nav-link" href="#">Liên Hệ</a>
+		        	<a class="nav-link" href="https://www.facebook.com/mon.dorae.77">Liên Hệ</a>
 		      	</li>
 		      	<li class="nav-item">
-		        	<a class="nav-link" href="#">Tin Tức</a>
+		        	<a class="nav-link" href="admin/addchapter.php">ĐĂNG TRUYỆN</a>
 		      	</li>
 		      	<li class="nav-item">
 		        	<a class="nav-link" href="404.php">Lỗi</a>
 		      	</li>
+		      	<?php if(isset($_SESSION['email'])){ if ($_SESSION['email']=="admin"){ ?>
 		      	<li class="nav-item">
 		        	<a class="nav-link" href="admin/index.php">DASHBOARD</a>
-		      	</li>
-		      	<!--- <li class="nav-item">  tag vô hiệu hóa
+		      	</li> <?php }} ?>		      	<!--- <li class="nav-item">  tag vô hiệu hóa
 		        	<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
 		      	</li> -->
 		    </ul>
@@ -64,7 +64,7 @@
 		    <ul class="navbar-nav ml-auto">
 		    	<!-- search form -->
 		    <form class="form-inline my-2 my-lg-0" method="GET" action="search.php">
-		      	<input class="form-control mr-sm-2" type="search" placeholder="Tìm Kiếm" aria-label="Search" id="search" name="search">
+		      	<input class="form-control mr-sm-2" type="search" placeholder="<?php if(isset($_GET['search'])) echo $_GET['search']; else echo "Tìm Kiếm"?>" aria-label="Search" id="search" name="search">
 		      	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Tìm Kiếm</button>
 		    </form>
 <?php 

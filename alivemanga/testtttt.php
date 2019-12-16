@@ -1,32 +1,22 @@
-<!-- Button trigger modal -->
+<?php 
+if(isset($_GET['btn_submit']))
+{
+  //print_r($_GET);
+  foreach ($_GET['test'] as $key => $value) {
+    echo "KEY = ".$key.", value = ".$value."\n";
+  }
+}
+//$str="1,2,3,4,5";
+//print_r(explode(',',$str));
 
-<!DOCTYPE html>
-<html>
-<head>
-	<title>TRANG CHỦ | ALIVE MANGA</title>
-<?php require("pageload/header.php");
-	require("js/function.php");			?>
-</head>
-<body>
-			<!-- CONTENT -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  Launch demo modal
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        <h2>Thêm Thành công</h2>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" onclick="window.location.href='addchapter.php'">Đóng</button>
-        <button type="button" class="btn btn-primary" onclick="window.location.href='index.php'">Về Trang Chủ</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<?php require("pageload/js.php");?>
+?>
+<form action="">
+  <select name="test[]" size="4" multiple>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+  </select>
+  <br><br>
+  <input type="submit" name="btn_submit">
+</form>

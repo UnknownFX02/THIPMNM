@@ -81,21 +81,19 @@
 		return true;
 	}
 
-	function paging()
+		function dinhDangNgay($date)
 	{
-	require("db/connection.php");
-	$sql="SELECT count(mangaid) AS total FROM manga";
-    $result = mysqli_query($conn,$sql);
-    $row = mysqli_fetch_assoc($result);
-    $GLOBALS['$total_records'] = $row['total'];
-    $GLOBALS['$current_page'] = isset($_GET['page']) ? $_GET['page'] : 1; //echo $current_page."\n";
-    $GLOBALS['$limit'] = 6;
-    $$GLOBALS['$total_page'] = ceil($total_records / $limit);
-    if ($current_page > $total_page){
-        $current_page = $total_page;
-    }
-    else if ($current_page < 1){
-        $current_page = 1;
-    }
-    $GLOBALS['$start'] = ($current_page - 1) * $limit;
+		$time = strtotime($date);
+		//$myFormatForView = date("m/d/y g:i A", $time);
+		return date("H:m:s d/m/Y", $time);
 	}
+
+	function tongHinh($chapter_id)
+	{
+		require("../db/connection.php");
+		$sql ="SELECT count(upload_name) AS total FROM uploaded WHERE chapter_id = '$chapter_id'";
+		$result = mysqli_query($conn,$sql);
+		$row = mysqli_fetch_assoc($result);
+    	return $row['total'];
+	}
+

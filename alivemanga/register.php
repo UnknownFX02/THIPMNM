@@ -21,19 +21,28 @@
 		$avatar_size=$_FILES["avatar"]["size"];
 		$avatar_temp=$_FILES["avatar"]["tmp_name"];
 		$avatar_des="images/user/";
-		//$avatar_type=$_FILES['avatar']['type'];
 		//Lấy đuôi file
 		$extension = substr($avatar_name, strpos($avatar_name,'.') +1);
 		//Kiểm tra điều kiện bắt buộc đối với các field không được bỏ trống
 		if ($mail == "" || $password1 == "" || $name == ""){?>
-			<div class="alert alert-danger">
+		<div class="alert alert-danger">
             <strong>Bạn vui lòng nhập đầy đủ thông tin</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">x</button>
         </div>
 		<?php }
-			else{
-				if(!ktMail($mail))
-					echo "mail đã tồn tại";
+		if(strlen($_POST['password1'])<9 || strlen($_POST['password1'])>17){?>
+		<div class="alert alert-danger">
+            <strong>Mật khẩu phải ít nhất 8 kí tự nhiều nhất 16 ký tự</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">x</button>
+        </div>
+		<?php }
+			else
+				if(!ktMail($mail)){?>
+		<div class="alert alert-danger">
+            <strong>Mail đã tồn tại</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">x</button>
+        </div>
+				<?php }
 			else
 				if($password1 != $password2){?>
 		<div class="alert alert-danger">
@@ -44,14 +53,14 @@
 			else
 				if($extension != "jpg" && $extension != "jpeg" && $extension != "png"){?>
 			<div class="alert alert-danger">
-           		<strong>sai định dạng file hình</strong>
+           		<strong>Sai định dạng file hình</strong>
             	<button type="button" class="close" data-dismiss="alert" aria-label="Close">x</button>
         	</div>
 					<?php }
 			else
         	    if($avatar_size>="1000000"){?>
         		<div class="alert alert-danger">
-           			<strong>kích thước ảnh phải bé hơn 1mb</strong>
+           			<strong>Kích thước ảnh phải bé hơn 1mb</strong>
             		<button type="button" class="close" data-dismiss="alert" aria-label="Close">x</button>
         		</div>
         	    <?php }
@@ -93,7 +102,6 @@
 				<?php
 			}
 		}
-	}
 	?>
 						<!-- HEADER -->
 <?php include("pageload/header.php"); ?>
@@ -101,7 +109,7 @@
 <div class="container">
     <form action="" method="POST" class="form-signin" style="text-align: center;" enctype="multipart/form-data">
       <a href="index.php"><img class="mb-4" src="alivemanga.ico" alt="" width="120" height="120"></a>
-      <h1 class="h3 mb-3 font-weight-normal"><strong>Đăng Ký</strong></h1>
+      <h1 class="h3 mb-3 font-weight-normal"><strong>Đăng Ký&reg</strong></h1>
       <label for="email" class="sr-only">Email</label>
       
 	  <input type="email" name="email" id="email" class="form-control" placeholder="Email" required autofocus>
@@ -141,6 +149,7 @@
 </div>
 			<!-- FOOTER -->
 <?php include("pageload/footer.php"); ?>
+
 			<!-- JavaScripts -->
 <?php include("pageload/js.php"); ?>
   </body>

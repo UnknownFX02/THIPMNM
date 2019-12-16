@@ -5,12 +5,13 @@ if(!isset($_SESSION))
     } 
   require_once("../db/connection.php"); //kết nối với db 
   require_once("function.php");  //kết nối tới mớ function
+  
 ?>
 <!doctype html>
 <html lang="en">
   <head>
     <title>Thêm chương</title>
-      <meta charset="utf-8">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- css boottrap-->
@@ -26,7 +27,11 @@ if(!isset($_SESSION))
 
 <body>
 <?php
-
+if(!isset($_SESSION['group_id']) || $_SESSION['group_id'] == 2){ ?>
+  <script> alert("BẠN PHẢI ĐĂNG NHẬP ĐỂ SỬ DỤNG CHỨC NĂNG NÀY!");</script>
+<?php 
+    header('Location: ../index.php');
+  }
   if(isset($_POST["btn_submit"])) {
     $mangaid=$_POST['manga_name'];
     $name = array();
@@ -41,24 +46,21 @@ if(!isset($_SESSION))
     }
     $chapter_des = "../manga/".strtolower(strtr(tenManga($mangaid)," ","-"))."/chap ".$chapter_number."/";
     $chapter_des2="manga/".strtolower(strtr(tenManga($mangaid)," ","-"))."/chap ".$chapter_number."/";
-    
    // echo "count = ".count($name);
     //echo "chapter des2=".$chapter_des2; exit;
-    //mkdir($chapter_des);
+    mkdir($chapter_des);
 
     //echo $chapter_des.$chapter_number; exit;
     $sql ="INSERT INTO `chapters`(
                     `chapter_id`,
                     `chapter_name`,
                     `mangaid`,
-                    `updated_time`,
                     `viewer`
                 )
                 VALUES(
                     '$chapter_id',
                     '$chapter_number',
                     '$mangaid',
-                    CURRENT_TIMESTAMP,
                     '0'
                 )";
         mysqli_query($conn,$sql);
@@ -68,21 +70,19 @@ if(!isset($_SESSION))
         die("Lỗi hình");
   } //ko them vao database duoc lol
   $sql = "INSERT INTO `uploaded`(
-                    `upload_id`,
                     `manga_name`,
                     `upload_name`,
                     `chapter_id`
                 )
                 VALUES(
-                    NULL,
                     '$chapter_des2',
                     '{$name[$i]}',
-                    'chapter_id'
+                    '$chapter_id'
                 )";
               // thực thi câu $sql với biến conn lấy từ file connection.php
               mysqli_query($conn,$sql);
-              echo "Thêm content Thành Công";
-          }
+          } echo "Thêm content Thành Công";
+          unset($_POST);
         }
   ?>
     <div class="container">
@@ -128,7 +128,7 @@ if(!isset($_SESSION))
             </div>
             <button class="btn btn-primary btn-lg btn-block" type="submit" name="btn_submit">Thêm</button>
             <hr class="mb-0">
-            <button type="button" class="btn btn-secondary btn-lg btn-block" onclick="window.location.href='index.php'" title="Hủy">Hủy</button>
+            <button type="button" class="btn btn-secondary btn-lg btn-block" onclick="window.location.href='../index.php'" title="Hủy">Hủy</button>
             <hr class="mb-5">
           </form>
         </div>

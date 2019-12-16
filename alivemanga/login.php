@@ -39,6 +39,7 @@
 				//tiến hành lưu tên đăng nhập vào session để tiện xử lý sau này
 				while($row = mysqli_fetch_assoc($result)) 
     	 	{
+    	 		$_SESSION['user_id'] = $row['user_ID'];
 				$_SESSION['name'] = $row['user_name'];
 				$_SESSION['email'] = $row['user_email'];
 				$_SESSION['gt'] = $row['gioitinh'];
@@ -70,7 +71,7 @@
 	  <label for="password" class="sr-only">Mật khẩu</label>
       
 	  <input type="password" name="password" id="password" class="form-control" placeholder="Mật khẩu" required>
-	  <a class="text-decoration-none" href="#">Quên mật khẩu ? </a>
+	  <a class="text-decoration-none" href="">Quên mật khẩu ? </a>
       <button class="btn btn-lg btn-primary btn-block" type="submit" name="btn_submit">Đăng Nhập</button>
 	  <p class="mt-5 mb-3 text-muted">&copy; AliveManga 2019-2020</p>
     </form>

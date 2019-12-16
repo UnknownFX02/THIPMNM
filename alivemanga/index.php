@@ -122,13 +122,12 @@
     		while($row = mysqli_fetch_assoc($result))
     	 	{
 		 ?>
-		
 		    <div class="col-2"> 
 		      <a href="count.php?id=<?php echo $row['mangaid']; ?>"><img src="images/cover/<?php echo $row["manga_cover"]?>" alt="<?php echo $row['manganame']; ?>" class="img-thumbnail">
 		      <a class="text-decoration-none" href="count.php?id=<?php echo $row["mangaid"]; ?>" style="text-align: center;"><b><center> <?php echo $row["manganame"] ?> </center></b> </a>
 		      <a class="text-decoration-none" href="count.php?id=<?php echo $row['mangaid'];?>&chap=<?php echo idChap(chapMoiNhat($row['mangaid']),$row['mangaid']);?>"><center> Chap <?php echo chapMoiNhat($row['mangaid']);?></center></a>
 			</div>
-		<?php 
+		<?php
 			}
 			?> </div><?php
 		} else {

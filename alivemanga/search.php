@@ -5,7 +5,7 @@
 <?php require("pageload/header.php");
 require("js/function.php");
  ?>
-<title>Tìm kiếm</title>
+
 </head>
 <body>
 			<!-- NAVBAR -->
@@ -21,6 +21,7 @@ require("js/function.php");
 		if (mysqli_num_rows($result) > 0)
 		{
 			?>
+		<div class="p-2 mb-2 bg-dark text-white text-center"><h2><b> Thể loại <?php echo tenLoaiManga($_GET['id']);?></b></h2> </div>
 		<div class="row">
 			<?php
     		// xuất dữ liệu mỗi cột
@@ -42,13 +43,14 @@ require("js/function.php");
 	} else{
 
 ?>
-	<div class="p-2 mb-2 bg-dark text-white"><h2><b> Kết Quả Tìm Kiếm Cho "<?php echo $_GET['search'];?>": </b></h2> </div>
+	<div class="p-2 mb-2 bg-dark text-white text-center"><h2><b> Có <?php echo tongSearch(addslashes($_GET['search'])); ?> Kết Quả Tìm Kiếm Cho "<?php echo $_GET['search'];?>": </b></h2> </div>
 <?php 
 		$search = addslashes($_GET['search']); 
-		if(empty($search)){
-			echo "du lieu cchua duoc nhap";
-		}else
+		if(empty($search)){ ?>
+			<script> alert("Vui lòng nhập dữ liệu để tìm");</script>
+		<?php }else
 		{
+			echo "<title>"."Tìm Kiếm: ".$_GET['search']."</title>";
 			$sql="SELECT * FROM `manga` WHERE manganame LIKE '%$search%'";
 			$result = mysqli_query($conn, $sql);
 			if (mysqli_num_rows($result) > 0)
@@ -69,9 +71,9 @@ require("js/function.php");
 		<?php 
 			}
 			?> </div><?php
-		} else {
-			 echo "0 results";
-			}
+		} else {?>
+			<h1 class="text-center"> KHÔNG TÌM THẤY </h1>
+		<?php	}
 		}
 	}
 			?>

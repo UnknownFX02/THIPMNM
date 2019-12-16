@@ -27,7 +27,7 @@ if(!isset($_SESSION))
 <body>
 <?php
 
-  if(isset($_POST["btn_submit"])) {   
+  if(isset($_POST["btn_submit"])) {
   $manga_name = $_POST['manga_name'];
    // $_POST["group_name"];
   $trans = $_POST["trans"];
@@ -42,20 +42,21 @@ if(!isset($_SESSION))
   $cover_des = "../images/cover/";
   $cover_name = basename($_FILES["cover_manga"]["name"]);
   $cover_temp=$_FILES["cover_manga"]["tmp_name"];
-
-  if(!ktTruyen($manga_name)){
+  $extension = substr($cover_name, strpos($cover_name,'.') +1);
+  if(!ktTruyen($manga_name))
     echo "Truyện đã tồn tại";
-  }else{
-  if (!move_uploaded_file($cover_temp, $cover_des.$cover_name)) {
-        die("Lỗi hình");
+    else
+  if($extension != "jpg" && $extension != "jpeg" && $extension != "png")
+    echo "sai định dạng file hình";
+  else{
+   if (!move_uploaded_file($cover_temp, $cover_des.$cover_name)) {
+        die("Lỗi hình"); exit;
     }
-  
   $sql = "INSERT INTO `manga` (
                   `mangaid`,
                   `manganame`,
                   `trans`,
                   `newchap`,
-                  `updated`,
                   `other_name`,
                   `description`,
                   `viewer`,
@@ -68,7 +69,6 @@ if(!isset($_SESSION))
                 '$manga_name',
                 '$trans',
                 '0',
-                '',
                 '$other_name',
                 '$description',
                 '0',
@@ -82,6 +82,7 @@ if(!isset($_SESSION))
               $newfolder = "../manga/".strtolower(strtr($manga_name," ","-")); //chưa bỏ được kí tự đặc biệt
               mkdir($newfolder);
               echo "Thêm Truyện Thành Công";
+              unset($_POST);
             }
   }
   ?>

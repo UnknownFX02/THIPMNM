@@ -12,10 +12,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 	<title>DASHBOARD</title>
 	<!-- css boottrap-->
-	<link rel="stylesheet" href="../css/bootstrap.css">
-	<link rel="stylesheet" href="../css/bootstrap-grid.css">
 	<link rel="stylesheet" href="../css/bootstrap-grid.min.css">
-	<link rel="stylesheet" href="../css/bootstrap-reboot.css">
 	<link rel="stylesheet" href="../css/bootstrap-reboot.min.css">
 	<link rel="stylesheet" href="../css/bootstrap.min.css">
 	<link rel="stylesheet" href="../css/style.css">
@@ -39,22 +36,22 @@ else{
 		<div class="col-2">
 			<!--- navs tab ----------------- data-toggle="pill" -->
 			<div class="nav flex-column nav-pills" id="dashboard-tab" role="tablist" aria-orientation="vertical">
-    			<a class="nav-link active" id="admin-info-tab" data-toggle="pill" href="#admin-info" role="tab" aria-controls="admin-info" aria-selected="true">Thông Tin Cá Nhân</a>
-    			<a class="nav-link" id="user-mangaer-tab" href="#user-manager" data-toggle="pill" role="tab" aria-controls="user-manager" aria-selected="false">Quản Lý User</a>
-      			<a class="nav-link" id="manga-list-tab" href="#manga-list" data-toggle="pill" role="tab" aria-controls="manga-list" aria-selected="false">Danh Sách Truyện</a>
-      			<a class="nav-link" id="user-mangaer-tab" href="#chapter-manager" data-toggle="pill" role="tab" aria-controls="chapter-manager" aria-selected="false">Quản Lý Chapter</a>
-      			<a class="nav-link" id="settings-tab" href="#settings" data-toggle="pill" role="tab" aria-controls="settings" aria-selected="false">Cài Đặt</a>
+    			<a class="nav-link active" data-toggle="pill" href="#admin-info" role="tab" aria-controls="admin-info" aria-selected="true">Thông Tin Cá Nhân</a>
+    			<a class="nav-link" href="#user-manager" data-toggle="pill" role="tab" aria-controls="user-manager" aria-selected="false">Quản Lý User</a>
+      			<a class="nav-link" href="#manga-list" data-toggle="pill" role="tab" aria-controls="manga-list" aria-selected="false">Danh Sách Truyện</a>
+      			<a class="nav-link" href="#chapter-manager" data-toggle="pill" role="tab" aria-controls="chapter-manager" aria-selected="false">Quản Lý Chapter</a>
+      			<a class="nav-link" href="#settings" data-toggle="pill" role="tab" aria-controls="settings" aria-selected="false">Cài Đặt</a>
     		</div>
 		</div>
 		<div class="col">
 			<!-- tab content -->
 			<div class="tab-content">
   				<div class="tab-content" id="dashboard-tabContent">
-				    <div class="tab-pane fade show active" id="admin-info" role="tabpanel" aria-labelledby="admin-info-tab">
+				    <div class="tab-pane fade show active" id="admin-info" role="tabpanel">
 				    	<div class="row">
 	<?php
 		$admin="admin";
-		$sql = "select * from user where user_email = '$admin'";
+		$sql = "SELECT * FROM user WHERE user_email = '$admin'";
 		$result = mysqli_query($conn, $sql);
 		if (mysqli_num_rows($result) > 0)
 		{
@@ -98,7 +95,7 @@ else{
 						</div>
 					</div>
 					<!-- TAB QUẢN LÝ DANH SÁCH TRUYỆN -->
-				    <div class="tab-pane fade" id="manga-list" role="tabpanel" aria-labelledby="manga-list-tab">
+				    <div class="tab-pane fade" id="manga-list" role="tabpanel">
 				    	<a href="addmanga.php"><button>Thêm Truyện</button></a>
 				    	<table class="table">
 				    		<thead class="thead-light">
@@ -113,7 +110,7 @@ else{
 						        <th>Số chap</th>
 						        <th>Lượt view</th>
 						        <th>Ngày cập nhật</th>
-						        <th>Sửa/Xóa</th>
+						        <!-- <th>Sửa/Xóa</th> -->
 						    </tr>
 						</thead>
 <?php
@@ -157,10 +154,8 @@ else{
 									echo $row['viewer'];
 								?></td>
 								<td><?php
-									echo $row['updated'];
+									echo dinhDangNgay($row['updated']);
 								?></td>
-								<td><button>Sửa</button>/<button>Xóa</button>
-								</td>
 						    </tr>
 						    <?php 
 			}
@@ -171,7 +166,7 @@ else{
 </table>
 					</div>
 					<!-- TAB QUẢN LÝ USER -->
-				    <div class="tab-pane fade" id="user-manager" role="tabpanel" aria-labelledby="user-mangaer-tab">
+				    <div class="tab-pane fade" id="user-manager" role="tabpanel">
 				    	<table class="table">
 				    		<thead class="thead-light">
 						    <tr>
@@ -182,7 +177,7 @@ else{
 						        <th>Giới Tính</th>
 						        <th>Ngày Sinh</th>
 						        <th>Avatar</th>
-						        <th>Sửa/Xóa</th>
+						        <!-- <th>Ghi Chú</th> -->
 						    </tr>
 						</thead>
 						    <?php
@@ -215,12 +210,62 @@ else{
 									echo $row['ngaysinh'];
 								?></td>
 								<td><img src="../images/user/<?php echo $row["avatar"]?>" style="width: 50px; height: 50px;">
-								</td>
-								<td><button>Sửa</button>/<a href="delete.php?id=<?php echo $row["user_ID"] ?>" class="delete"><button>Xóa</button></a>
-								</td>
+							<!--	</td>
+								 <td><button>Sửa</button>/<a href="delete.php?id=<?php echo $row["user_ID"] ?>" class="delete"><button>Xóa</button></a>
+								 </td> -->
+						    </tr>
+						    <?php
+			}	}
+		} else {
+			 echo "Không có dữ liệu";
+			}
+			?>
+</table>
+					</div>
+					<!-- TAB QUẢN LÝ CHAP TRUYỆN -->
+					<div class="tab-pane fade" id="chapter-manager" role="tabpanel">
+				    	<a href="addchapter.php"><button>Thêm Chap/Chương</button></a>
+				    	<table class="table">
+				    		<thead class="thead-light">
+						    <tr>
+						        <th>STT</th>
+						        <th>Tên truyện</th>
+						        <th>Tên Chap/Chương</th>
+						        <th>Số hình trong chap</th>
+						        <th>Ngày đăng</th>
+						        <th>Lượt xem</th>
+						    </tr>
+						</thead>
+<?php
+		$stt=1;
+		$sql = "SELECT * FROM chapters ORDER BY `chapters`.`updated_time` DESC";
+		$result = mysqli_query($conn, $sql);
+		if (mysqli_num_rows($result) > 0)
+		{
+    		// xuất dữ liệu mỗi cột
+    		while($row = mysqli_fetch_assoc($result)) 
+    	 	{
+	?>
+						    <tr>
+								<td><?php echo $stt; $stt++; ?></td>
+								<td><?php
+									echo tenManga($row['mangaid']);
+								?></td>
+								<td><?php
+									echo $row['chapter_name'];
+								?></td>
+								<td><?php
+									echo tongHinh($row['chapter_id']);
+								?></td>
+								<td><?php
+									echo dinhDangNgay($row['updated_time']);
+								?></td>
+								<td><?php
+										echo $row['viewer'];
+								?></td>
 						    </tr>
 						    <?php 
-			}	}
+			}
 		} else {
 			 echo "0 có dữ liệu";
 			}
@@ -240,10 +285,7 @@ else{
 			<!-- JavaScripts -->
 		<script src="../js/jquery-3.4.1.min.js"></script>
 		<script src="../js/bootstrap.min.js"></script>
-		<script src="../js/bootstrap.js"></script>
 		<script src="../js/bootstrap.bundle.min.js"></script>
-		<script src="../js/bootstrap.bundle.js"></script>
 ?>
-
 </body>
 </html>
